@@ -98,7 +98,7 @@ make -j$(nproc)
 </details>
 
 ## AI Disclosure
-- This project, both world and client, contain no AI generated code
+- This project contain no AI generated code
 - This project contains no AI generated art
 - This project has not used AI to review PRs or code
 - LLMs were used to debug issues to which my knowledge did not stretch
