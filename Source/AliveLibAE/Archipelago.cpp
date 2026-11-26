@@ -1,5 +1,5 @@
 #include "Archipelago.hpp"
-#include "Logger.hpp"
+#include "logger.hpp"
 #include "Abe.hpp"
 #include "PathData.hpp"
 #include "BaseBomb.hpp"
