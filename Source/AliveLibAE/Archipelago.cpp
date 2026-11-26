@@ -219,7 +219,7 @@ namespace Archipelago {
 
     bool FinalDoorOpen()
     {
-        return sMudokonsRequired <= 0 || ItemCount("Mudokon Saved") >= sMudokonsRequired;
+        return sMudokonsRequired <= 0 || ItemCount("Mudokon") >= sMudokonsRequired;
     }
 
 }
