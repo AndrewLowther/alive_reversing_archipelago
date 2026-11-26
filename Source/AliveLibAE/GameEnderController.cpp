@@ -14,6 +14,10 @@
 #include "Function.hpp"
 #include "PathDataExtensions.hpp"
 
+#if ARCHIPELAGO_CLIENT
+#include "Archipelago.hpp"
+#endif
+
 ALIVE_VAR(1, 0x5C1BC6, s16, sFeeco_Restart_KilledMudCount_5C1BC6, 0);
 ALIVE_VAR(1, 0x5C1BC8, s16, sFeecoRestart_SavedMudCount_5C1BC8, 0);
 
@@ -153,6 +157,11 @@ void GameEnderController::vUpdate_43B920()
 
                     pBirdPortal->field_6_flags.Set(BaseGameObject::eDead_Bit3);
                     sActiveHero_5C1B68->field_6_flags.Set(BaseGameObject::eDead_Bit3);
+
+                    #if ARCHIPELAGO_CLIENT
+                    // We can record a done event here, as this is the actual end of the game, so log the event for Archi
+                    Archipelago::GoalComplete(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, gMap_5C3030.field_4_current_camera);
+                    #endif
 
                     // Good ending
                     if (sRescuedMudokons_5C1BC2 >= Path_GoodEndingMuds(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path))

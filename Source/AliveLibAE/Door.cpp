@@ -13,6 +13,10 @@
 #include "BaseAliveGameObject.hpp"
 #include "Grid.hpp"
 
+#if ARCHIPELAGO_CLIENT
+#include "Archipelago.hpp"
+#endif
+
 struct Door_Info final
 {
     s32 field_0_frameTableOffset_closed;
@@ -427,13 +431,26 @@ void Door::vUpdate_41EBE0()
                 SwitchStates_Do_Operation_465F00(field_100_switch_id, SwitchOp::eSetFalse_1);
             }
         }
+
+        // Keep the door in its default state if there's no AP
+        bool apLocked = false;
+
+        #if ARCHIPELAGO_CLIENT
+        if (Path_TLV* pTlv = sPath_dword_BB47C0->TLV_From_Offset_Lvl_Cam_4DB770(field_F4_tlvInfo))
+        {
+            const Path_Door* pDoorTlv = static_cast<const Path_Door*>(pTlv);
+            apLocked = pDoorTlv->field_10_level == LevelIds::eBrewery_Ender_10 && !Archipelago::FinalDoorOpen();
+        }
+        #endif
+
         switch (field_FC_current_state)
         {
             case DoorStates::eOpen_0:
                 field_20_animation.field_4_flags.Clear(AnimFlags::eBit3_Render);
 
                 if ((!field_FE_start_state && SwitchStates_Get_466020(field_100_switch_id))
-                    || (field_FE_start_state == DoorStates::eClosed_1 && !SwitchStates_Get_466020(field_100_switch_id)))
+                    || (field_FE_start_state == DoorStates::eClosed_1 && !SwitchStates_Get_466020(field_100_switch_id))
+                    || apLocked)
                 {
                     field_FC_current_state = DoorStates::eClosing_3;
                     if (gMap_5C3030.field_22_overlayID == 108)
@@ -456,7 +473,9 @@ void Door::vUpdate_41EBE0()
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit3_Render);
                 field_20_animation.field_4_flags.Set(AnimFlags::eBit2_Animate);
 
-                if ((field_FE_start_state == DoorStates::eClosed_1 && SwitchStates_Get_466020(field_100_switch_id)) || (field_FE_start_state == DoorStates::eOpen_0 && !SwitchStates_Get_466020(field_100_switch_id)))
+                if (((field_FE_start_state == DoorStates::eClosed_1 && SwitchStates_Get_466020(field_100_switch_id)) 
+                    || (field_FE_start_state == DoorStates::eOpen_0 && !SwitchStates_Get_466020(field_100_switch_id)))
+                    && !apLocked)
                 {
                     field_FC_current_state = DoorStates::eOpening_2;
                     if (gMap_5C3030.field_22_overlayID == 108)

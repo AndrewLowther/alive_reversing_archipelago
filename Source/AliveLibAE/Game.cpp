@@ -43,6 +43,10 @@
 #include "GameAutoPlayer.hpp"
 #include <string>
 
+#if ARCHIPELAGO_CLIENT
+#include "Archipelago.hpp"
+#endif
+
 void Game_ForceLink()
 { }
 
@@ -878,6 +882,11 @@ EXPORT void CC Game_Loop_467230()
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
         }
+
+        #if ARCHIPELAGO_CLIENT
+        // Tick the Archipelago client each frame
+        Archipelago::Tick();
+        #endif
 
         GetGameAutoPlayer().ValidateObjectStates();
 

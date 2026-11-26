@@ -9,6 +9,10 @@
 #include "Map.hpp"
 #include "Sys.hpp"
 
+#if ARCHIPELAGO_CLIENT
+#include "Archipelago.hpp"
+#endif
+
 void StatsSign_ForceLink()
 {
 }
@@ -173,6 +177,11 @@ void LCDStatusBoard::vRender_47B900(PrimHeader** ppOt)
 
         // Saved Mudokons
         sprintf(text, "%3d", sRescuedMudokons_5C1BC2);
+
+        #if ARCHIPELAGO_CLIENT
+        sprintf(text, "%3d", Archipelago::ItemCount("Mudokon"));
+        #endif
+
         const s32 font2Width = field_58_font2.MeasureWidth_433700(text);
         field_58_font2.DrawString_4337D0(
             ppOt,

@@ -33,6 +33,10 @@
 #include "Sys_common.hpp"
 #include "Grid.hpp"
 
+#if ARCHIPELAGO_CLIENT
+#include "Archipelago.hpp"
+#endif
+
 ALIVE_VAR(1, 0x5C3012, s16, sGoingToBirdPortalMudCount_5C3012, 0);
 
 
@@ -6467,6 +6471,10 @@ void Mudokon::M_RunJumpMid_36_474570()
         }
 
         sRescuedMudokons_5C1BC2++;
+
+        #if ARCHIPELAGO_CLIENT
+        Archipelago::OnMudokonRescued(gMap_5C3030.field_0_current_level, gMap_5C3030.field_2_current_path, sZulagNumber_5C1A20, sRescuedMudokons_5C1BC2, field_118_tlvInfo);
+        #endif
 
         if (sZulagNumber_5C1A20 < ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
         {

@@ -379,6 +379,8 @@ SET(AliveLibAESrc
     TestAnimation.cpp
     TestAnimation.hpp
     Layer.hpp
+    Archipelago.hpp
+    Archipelago.cpp
 )
 
 add_library(AliveLibAE ${AliveLibAESrc})
