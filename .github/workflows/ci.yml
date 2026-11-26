@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main_archipelago]
   pull_request:
-    branches: [master]
+    branches: [main_archipelago]
 
 # build setting(s)
 env:
